@@ -10,6 +10,12 @@ local.properties
 captures
 .externalNativeBuild
 .cxx
+hs_err_pid*.log
+.artifacts/
+extracted/
+kotlin-js-store/
+androidApp-debug.zip
+composeApp/src/androidMain/assets/composeResources/
 *.xcodeproj/*
 !*.xcodeproj/project.pbxproj
 !*.xcodeproj/xcshareddata/

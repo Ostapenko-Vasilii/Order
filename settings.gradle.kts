@@ -1,6 +1,8 @@
 rootProject.name = "Order"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
+includeBuild("build-logic")
+
 pluginManagement {
     repositories {
         google {
@@ -29,3 +31,8 @@ dependencyResolutionManagement {
 }
 
 include(":composeApp")
+include(":androidApp")
+include(":core")
+include(":core:ui")
+include(":core:data")
+include(":core:domain")

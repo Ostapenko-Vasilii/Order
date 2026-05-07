@@ -6,7 +6,7 @@ import kotlin.test.assertEquals
 class ComposeAppCommonTest {
 
     @Test
-    fun example() {
-        assertEquals(3, 1 + 2)
+    fun greetingMessageFormatsPlatformName() {
+        assertEquals("Hello, Android 15!", greetingMessage("Android 15"))
     }
 }
