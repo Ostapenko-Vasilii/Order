@@ -51,6 +51,7 @@ class AppPlugin : Plugin<Project> {
                     val commonMain = getByName("commonMain")
 
                     androidMain.dependencies {
+                        implementation(getLibraryFromLibsToml("compose-uiTooling"))
                         api(getLibraryFromLibsToml("androidx-activity-compose"))
                         implementation(getLibraryFromLibsToml("androidx-activity-compose"))
                         implementation(getLibraryFromLibsToml("androidx-lifecycle-viewmodelCompose"))

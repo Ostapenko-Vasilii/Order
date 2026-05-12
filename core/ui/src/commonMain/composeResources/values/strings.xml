@@ -1,0 +1,5 @@
+<resources>
+    <string name="name_label">Имя</string>
+    <string name="name_placeholder">Введите имя</string>
+    <string name="registration_button">Регистрация</string>
+</resources>

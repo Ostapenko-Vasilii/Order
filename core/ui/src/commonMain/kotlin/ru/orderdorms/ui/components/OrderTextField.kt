@@ -1,0 +1,81 @@
+package ru.orderdorms.ui.components
+
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.Text
+import androidx.compose.material3.Surface
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.tooling.preview.Preview
+import order.core.ui.generated.resources.Res
+import order.core.ui.generated.resources.name_label
+import order.core.ui.generated.resources.name_placeholder
+
+import org.jetbrains.compose.resources.stringResource
+import ru.orderdorms.ui.theme.OrderTheme
+
+@Composable
+fun OrderTextField(
+    value: String,
+    onValueChange: (String) -> Unit,
+    modifier: Modifier = Modifier,
+    label: String = stringResource(Res.string.name_label),
+    placeholder: String = stringResource(Res.string.name_placeholder),
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    visualTransformation: VisualTransformation = VisualTransformation.None,
+) {
+    OutlinedTextField(
+        value = value,
+        onValueChange = onValueChange,
+        label = {
+            Text(
+                text = label,
+                style = OrderTheme.typography.labelMedium,
+                color = OrderTheme.colors.primaryTextColor,
+            )
+        },
+        placeholder = {
+            Text(
+                text = placeholder,
+                style = OrderTheme.typography.headlineMedium,
+            )
+        },
+        modifier = modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(20.dp),
+        colors = OutlinedTextFieldDefaults.colors(
+            unfocusedBorderColor = Color(0xFFC4C4C4),
+            focusedBorderColor = Color(0xFFC4C4C4),
+            unfocusedLabelColor = Color(0xFF1D1B20),
+            focusedLabelColor = Color(0xFF1D1B20),
+            unfocusedPlaceholderColor = Color(0xFF9E9E9E),
+            focusedPlaceholderColor = Color(0xFF9E9E9E),
+        ),
+        keyboardOptions = keyboardOptions,
+        visualTransformation = visualTransformation,
+        singleLine = true,
+    )
+}
+
+@Preview
+@Composable
+fun OrderTextFieldPreview() {
+    MaterialTheme {
+        Surface {
+            OrderTextField(
+                value = "",
+                onValueChange = {},
+                label = "Имя",
+                placeholder = "Введите имя",
+                modifier = Modifier.padding(16.dp),
+            )
+        }
+    }
+}

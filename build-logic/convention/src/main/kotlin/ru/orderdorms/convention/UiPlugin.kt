@@ -22,6 +22,7 @@ class UiPlugin : Plugin<Project> {
                     val commonMain = getByName("commonMain")
 
                     androidMain.dependencies {
+                        implementation(getLibraryFromLibsToml("compose-uiTooling"))
                         implementation(getLibraryFromLibsToml("compose-uiToolingPreview"))
                         implementation(getLibraryFromLibsToml("androidx-activity-compose"))
                         implementation(getLibraryFromLibsToml("androidx-lifecycle-viewmodelCompose"))
