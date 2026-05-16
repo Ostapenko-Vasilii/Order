@@ -37,7 +37,6 @@ class UiPlugin : Plugin<Project> {
                         implementation(getLibraryFromLibsToml("compose-uiToolingPreview"))
                         implementation(getLibraryFromLibsToml("coil"))
                         implementation(getLibraryFromLibsToml("coil-network-ktor"))
-                        implementation(getLibraryFromLibsToml("multiplatformSettings"))
                     }
                 }
             }

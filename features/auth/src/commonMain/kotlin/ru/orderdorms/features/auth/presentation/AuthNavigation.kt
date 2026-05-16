@@ -1,14 +1,6 @@
 package ru.orderdorms.features.auth.presentation
 
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.SizeTransform
 import androidx.compose.animation.animateContentSize
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideOutHorizontally
-import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,33 +9,26 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import ru.orderdorms.ui.components.Dimensions
 import ru.orderdorms.ui.theme.OrderTheme
 
-@Composable
-fun AuthFlow() {
-    val viewModel: AuthViewModel = viewModel { AuthViewModel() }
-    val state by viewModel.state.collectAsState()
-    val navController = rememberNavController()
+private const val DEMO_VERIFICATION_CODE = "123456"
 
-    // Sync route with persistence
-    androidx.compose.runtime.LaunchedEffect(navController) {
-        navController.currentBackStackEntryFlow.collect { entry ->
-            entry.destination.route?.let { viewModel.setRoute(it) }
-        }
-    }
+private fun isValidEmail(value: String): Boolean =
+    Regex("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$").matches(value.trim())
+
+private fun isValidInvitationCode(value: String): Boolean = value.trim().length == 6
+
+private fun isValidPassword(value: String): Boolean = value.length >= 8
+
+@Composable
+fun AuthFlow(onAuthorized: () -> Unit) {
+    val navigator = rememberAuthNavigator()
 
     Box(
         modifier = Modifier.fillMaxSize().background(OrderTheme.colors.bgPlaceholderColor),
@@ -57,83 +42,137 @@ fun AuthFlow() {
                 .background(OrderTheme.colors.onBackground, RoundedCornerShape(Dimensions.regularCornerRadius))
                 .animateContentSize()
         ) {
-            NavHost(
-                navController = navController,
-                startDestination = viewModel.getInitialRoute(),
-                enterTransition = {
-                    slideInHorizontally(animationSpec = tween(300), initialOffsetX = { it }) + fadeIn(animationSpec = tween(300))
-                },
-                exitTransition = {
-                    slideOutHorizontally(animationSpec = tween(300), targetOffsetX = { -it }) + fadeOut(animationSpec = tween(300))
-                },
-                popEnterTransition = {
-                    slideInHorizontally(animationSpec = tween(300), initialOffsetX = { -it }) + fadeIn(animationSpec = tween(300))
-                },
-                popExitTransition = {
-                    slideOutHorizontally(animationSpec = tween(300), targetOffsetX = { it }) + fadeOut(animationSpec = tween(300))
-                }
-            ) {
-                composable("welcome") {
+            when (navigator.currentScreen) {
+                AuthScreen.Welcome -> {
                     WelcomeScreen(
-                        onLogin = { navController.navigate("login") },
-                        onRegister = {
-                            viewModel.setRegistration(true)
-                            navController.navigate("invitation")
-                        }
+                        onLogin = { navigator.navigate(AuthScreen.Login) },
+                        onRegister = { navigator.navigate(AuthScreen.Invitation) }
                     )
                 }
-                composable("login") {
-                    var email by remember { mutableStateOf("") }
-                    var pass by remember { mutableStateOf("") }
+
+                AuthScreen.Login -> {
+                    val emailState = remember { mutableStateOf("") }
+                    val passState = remember { mutableStateOf("") }
+                    val email = emailState.value
+                    val pass = passState.value
                     LoginScreen(
                         email = email,
-                        onEmailChanged = { email = it },
+                        onEmailChanged = { emailState.value = it },
                         pass = pass,
-                        onPassChanged = { pass = it },
+                        onPassChanged = { passState.value = it },
                         onForgotPassword = { },
-                        onRegClick = {
-                            viewModel.setRegistration(true)
-                            navController.navigate("invitation")
+                        onRegClick = { navigator.navigate(AuthScreen.Invitation) },
+                        onBack = navigator::back,
+                        emailError = when {
+                            email.isBlank() -> null
+                            !isValidEmail(email) -> "Неправильная почта"
+                            else -> null
                         },
-                        onLoginClick = { }
+                        passError = when {
+                            pass.isBlank() -> null
+                            !isValidPassword(pass) -> "Пароль меньше 8 символов"
+                            else -> null
+                        },
+                        onLoginClick = {
+                            if (isValidEmail(email) && isValidPassword(pass)) {
+                                onAuthorized()
+                            }
+                        },
                     )
                 }
-                composable("invitation") {
+
+                AuthScreen.Invitation -> {
+                    val codeState = remember { mutableStateOf("") }
+                    val code = codeState.value
                     InvitationStep(
-                        code = state.invitationCode,
-                        onCodeChanged = { viewModel.updateInvitationCode(it) },
-                        onNext = { navController.navigate("email") }
+                        code = code,
+                        onCodeChanged = { codeState.value = it },
+                        onBack = navigator::back,
+                        codeError = when {
+                            code.isBlank() -> null
+                            !isValidInvitationCode(code) -> "Неправильный код"
+                            else -> null
+                        },
+                        onNext = { navigator.navigate(AuthScreen.Email) },
                     )
                 }
-                composable("email") {
+
+                AuthScreen.Email -> {
+                    val emailState = remember { mutableStateOf("") }
+                    val email = emailState.value
                     EmailStep(
-                        email = state.email,
-                        onEmailChanged = { viewModel.updateEmail(it) },
+                        email = email,
+                        onEmailChanged = { emailState.value = it },
                         buttonText = "Далее",
-                        onNext = { navController.navigate("verify") }
+                        onBack = navigator::back,
+                        emailError = when {
+                            email.isBlank() -> null
+                            !isValidEmail(email) -> "Неправильная почта"
+                            else -> null
+                        },
+                        onNext = {
+                            if (isValidEmail(email)) {
+                                navigator.navigate(AuthScreen.Verify)
+                            }
+                        },
                     )
                 }
-                composable("verify") {
-                    var code by remember { mutableStateOf("") }
+
+                AuthScreen.Verify -> {
+                    val codeState = remember { mutableStateOf("") }
+                    val code = codeState.value
                     VerifyStep(
                         code = code,
-                        onCodeChanged = { code = it },
-                        onNext = { navController.navigate("password") }
+                        onCodeChanged = { codeState.value = it },
+                        onBack = navigator::back,
+                        expectedCode = DEMO_VERIFICATION_CODE,
+                        codeError = when {
+                            code.isBlank() -> null
+                            code != DEMO_VERIFICATION_CODE -> "Неправильный код"
+                            else -> null
+                        },
+                        onNext = {
+                            if (code == DEMO_VERIFICATION_CODE) {
+                                navigator.navigate(AuthScreen.Authorized)
+                            }
+                        },
                     )
                 }
-                composable("password") {
-                    var pass by remember { mutableStateOf("") }
-                    var passRepeat by remember { mutableStateOf("") }
+
+                AuthScreen.Authorized -> {
+                    AuthorizedStep(
+                        onBack = navigator::back,
+                        onNext = { navigator.navigate(AuthScreen.Password) },
+                    )
+                }
+
+                AuthScreen.Password -> {
+                    val passState = remember { mutableStateOf("") }
+                    val passRepeatState = remember { mutableStateOf("") }
+                    val pass = passState.value
+                    val passRepeat = passRepeatState.value
                     PasswordStep(
                         pass = pass,
-                        onPassChanged = { pass = it },
+                        onPassChanged = { passState.value = it },
                         passRepeat = passRepeat,
-                        onPassRepeatChanged = { passRepeat = it },
+                        onPassRepeatChanged = { passRepeatState.value = it },
                         title = "Придумайте пароль",
-                        onNext = { /* Finish */ }
+                        onBack = navigator::back,
+                        passError = when {
+                            pass.isBlank() -> null
+                            !isValidPassword(pass) -> "Пароль меньше 8 символов"
+                            else -> null
+                        },
+                        passRepeatError = when {
+                            passRepeat.isBlank() -> null
+                            passRepeat != pass -> "Пароли не совпадают"
+                            else -> null
+                        },
+                        onNext = onAuthorized,
                     )
                 }
             }
         }
     }
 }
+

@@ -31,6 +31,8 @@ fun OrderTextField(
     placeholder: String = stringResource(Res.string.name_placeholder),
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     visualTransformation: VisualTransformation = VisualTransformation.None,
+    isError: Boolean = false,
+    errorText: String? = null,
 ) {
     OutlinedTextField(
         value = value,
@@ -51,16 +53,29 @@ fun OrderTextField(
         modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(20.dp),
         colors = OutlinedTextFieldDefaults.colors(
-            unfocusedBorderColor = Color(0xFFC4C4C4),
-            focusedBorderColor = Color(0xFFC4C4C4),
+            unfocusedBorderColor = if (isError) Color(0xFFF44336) else Color(0xFFC4C4C4),
+            focusedBorderColor = if (isError) Color(0xFFF44336) else Color(0xFFC4C4C4),
+            errorBorderColor = Color(0xFFF44336),
             unfocusedLabelColor = Color(0xFF1D1B20),
             focusedLabelColor = Color(0xFF1D1B20),
             unfocusedPlaceholderColor = Color(0xFF9E9E9E),
             focusedPlaceholderColor = Color(0xFF9E9E9E),
+            errorLabelColor = Color(0xFFF44336),
+            errorPlaceholderColor = Color(0xFFF44336).copy(alpha = 0.7f),
         ),
         keyboardOptions = keyboardOptions,
         visualTransformation = visualTransformation,
         singleLine = true,
+        isError = isError,
+        supportingText = {
+            if (!errorText.isNullOrBlank()) {
+                Text(
+                    text = errorText,
+                    style = OrderTheme.typography.labelMedium,
+                    color = Color(0xFFF44336),
+                )
+            }
+        },
     )
 }
 

@@ -13,6 +13,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -53,6 +54,7 @@ fun OtpCodeInput(
     isEnabled: Boolean = true,
     maxLength: Int = 6,
     isOnlyNumbers: Boolean = false,
+    errorText: String? = null,
 ) {
     val focusRequester = remember { FocusRequester() }
     val bringIntoViewRequester = remember { BringIntoViewRequester() }
@@ -63,63 +65,74 @@ fun OtpCodeInput(
         modifier = Modifier.fillMaxWidth(),
         contentAlignment = Alignment.Center
     ) {
-        BasicTextField(
-            value = code,
-            onValueChange = { input ->
-                if (input.length <= maxLength && isEnabled) {
-                    val filtered = if (isOnlyNumbers) {
-                        input.filter { it.isDigit() }
-                    } else {
-                        input.filter { it.isLetterOrDigit() }.uppercase()
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            BasicTextField(
+                value = code,
+                onValueChange = { input ->
+                    if (input.length <= maxLength && isEnabled) {
+                        val filtered = if (isOnlyNumbers) {
+                            input.filter { it.isDigit() }
+                        } else {
+                            input.filter { it.isLetterOrDigit() }.uppercase()
+                        }
+                        onCodeChanged(filtered)
                     }
-                    onCodeChanged(filtered)
-                }
-            },
-            modifier = Modifier
-                .focusRequester(focusRequester)
-                .bringIntoViewRequester(bringIntoViewRequester)
-                .size(1.dp)
-                .alpha(0f),
-            keyboardOptions = KeyboardOptions(
-                keyboardType = if (isOnlyNumbers) KeyboardType.Number else KeyboardType.Text,
-                imeAction = ImeAction.Done,
-                capitalization = KeyboardCapitalization.Characters
-            ),
-            enabled = isEnabled
-        )
+                },
+                modifier = Modifier
+                    .focusRequester(focusRequester)
+                    .bringIntoViewRequester(bringIntoViewRequester)
+                    .size(1.dp)
+                    .alpha(0f),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = if (isOnlyNumbers) KeyboardType.Number else KeyboardType.Text,
+                    imeAction = ImeAction.Done,
+                    capitalization = KeyboardCapitalization.Characters
+                ),
+                enabled = isEnabled
+            )
 
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(6.dp, Alignment.CenterHorizontally),
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.pointerInput(isEnabled) {
-                if (isEnabled) {
-                    detectTapGestures {
-                        focusRequester.requestFocus()
-                        softwareKeyboardController?.show()
-                        coroutineScope.launch {
-                            bringIntoViewRequester.bringIntoView()
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(6.dp, Alignment.CenterHorizontally),
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.pointerInput(isEnabled) {
+                    if (isEnabled) {
+                        detectTapGestures {
+                            focusRequester.requestFocus()
+                            softwareKeyboardController?.show()
+                            coroutineScope.launch {
+                                bringIntoViewRequester.bringIntoView()
+                            }
                         }
                     }
                 }
-            }
-        ) {
-            val step = when {
-                maxLength % 3 == 0 -> 3
-                maxLength % 2 == 0 -> 2
-                else -> 0
-            }
-
-            repeat(maxLength) { index ->
-                OtpCharCell(
-                    char = code.getOrNull(index)?.toString() ?: "",
-                    isFocused = code.length == index && isEnabled,
-                    isValid = isValid,
-                    isEnabled = isEnabled
-                )
-
-                if (step > 0 && (index + 1) % step == 0 && index != maxLength - 1) {
-                    Spacer(modifier = Modifier.width(12.dp))
+            ) {
+                val step = when {
+                    maxLength % 3 == 0 -> 3
+                    maxLength % 2 == 0 -> 2
+                    else -> 0
                 }
+
+                repeat(maxLength) { index ->
+                    OtpCharCell(
+                        char = code.getOrNull(index)?.toString() ?: "",
+                        isFocused = code.length == index && isEnabled,
+                        isValid = isValid,
+                        isEnabled = isEnabled
+                    )
+
+                    if (step > 0 && (index + 1) % step == 0 && index != maxLength - 1) {
+                        Spacer(modifier = Modifier.width(12.dp))
+                    }
+                }
+            }
+
+            if (!errorText.isNullOrBlank()) {
+                Spacer(modifier = Modifier.size(8.dp))
+                Text(
+                    text = errorText,
+                    style = OrderTheme.typography.labelMedium,
+                    color = Color(0xFFF44336)
+                )
             }
         }
     }
