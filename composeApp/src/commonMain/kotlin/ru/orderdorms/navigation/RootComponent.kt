@@ -7,7 +7,9 @@ import androidx.compose.runtime.remember
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.serialization.Serializable
+import org.koin.mp.KoinPlatform
 import ru.orderdorms.TempScreen
+import ru.orderdorms.core.domain.auth.AuthRepository
 import ru.orderdorms.features.auth.presentation.AuthFlow
 
 @Serializable
@@ -17,21 +19,21 @@ enum class RootScreen {
 }
 
 class RootController(
+    private val authRepository: AuthRepository,
 ) {
-    private var isAuthorized: Boolean = false
-
-    private val _screen = MutableStateFlow(if (isAuthorized) RootScreen.TEMP else RootScreen.AUTH)
+    private val _screen = MutableStateFlow(
+        if (authRepository.isAuthorized()) RootScreen.TEMP else RootScreen.AUTH
+    )
 
     val screen = _screen.asStateFlow()
 
     fun onAuthorized() {
-        isAuthorized = true
-        _screen.value = if (isAuthorized) RootScreen.TEMP else RootScreen.AUTH
+        _screen.value = RootScreen.TEMP
     }
 
     fun onLogout() {
-        isAuthorized = false
-        _screen.value = if (isAuthorized) RootScreen.TEMP else RootScreen.AUTH
+        authRepository.clearAuth()
+        _screen.value = RootScreen.AUTH
     }
 }
 
@@ -48,8 +50,7 @@ fun RootContent(rootController: RootController) {
 @Composable
 fun rememberRootController(): RootController =
     remember {
-        RootController()
+        RootController(
+            authRepository = KoinPlatform.getKoin().get(),
+        )
     }
-
-
-

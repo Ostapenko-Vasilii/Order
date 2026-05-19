@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
@@ -30,6 +31,7 @@ fun OrderTextField(
     label: String = stringResource(Res.string.name_label),
     placeholder: String = stringResource(Res.string.name_placeholder),
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    keyboardActions: KeyboardActions = KeyboardActions.Default,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     isError: Boolean = false,
     errorText: String? = null,
@@ -64,6 +66,7 @@ fun OrderTextField(
             errorPlaceholderColor = Color(0xFFF44336).copy(alpha = 0.7f),
         ),
         keyboardOptions = keyboardOptions,
+        keyboardActions = keyboardActions,
         visualTransformation = visualTransformation,
         singleLine = true,
         isError = isError,

@@ -50,8 +50,10 @@ import ru.orderdorms.ui.theme.OrderTheme
 fun OtpCodeInput(
     code: String,
     onCodeChanged: (String) -> Unit,
+    modifier: Modifier = Modifier,
     isValid: Boolean? = null,
     isEnabled: Boolean = true,
+    showError: Boolean = false,
     maxLength: Int = 6,
     isOnlyNumbers: Boolean = false,
     errorText: String? = null,
@@ -62,7 +64,7 @@ fun OtpCodeInput(
     val softwareKeyboardController = LocalSoftwareKeyboardController.current
 
     Box(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         contentAlignment = Alignment.Center
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -116,7 +118,7 @@ fun OtpCodeInput(
                     OtpCharCell(
                         char = code.getOrNull(index)?.toString() ?: "",
                         isFocused = code.length == index && isEnabled,
-                        isValid = isValid,
+                        isValid = if (showError) isValid else null,
                         isEnabled = isEnabled
                     )
 
@@ -126,7 +128,7 @@ fun OtpCodeInput(
                 }
             }
 
-            if (!errorText.isNullOrBlank()) {
+            if (showError && !errorText.isNullOrBlank()) {
                 Spacer(modifier = Modifier.size(8.dp))
                 Text(
                     text = errorText,

@@ -5,11 +5,17 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import ru.orderdorms.features.auth.presentation.components.BaseAuthScreen
 import ru.orderdorms.ui.components.Dimensions
@@ -39,14 +45,27 @@ fun WelcomeScreen(onLogin: () -> Unit, onRegister: () -> Unit) {
 }
 
 @Composable
-fun InvitationStep(code: String, onCodeChanged: (String) -> Unit, onBack: () -> Unit, codeError: String?, onNext: () -> Unit) {
+fun InvitationStep(
+    code: String,
+    onCodeChanged: (String) -> Unit,
+    onBack: () -> Unit,
+    codeError: String?,
+    isLoading: Boolean,
+    onNext: () -> Unit,
+) {
+    val focusRequester = remember { FocusRequester() }
+
+    LaunchedEffect(Unit) {
+        focusRequester.requestFocus()
+    }
+    
     BaseAuthScreen(title = "Введите код приглашения", onBack = onBack) {
         OtpCodeInput(
             code = code,
             onCodeChanged = onCodeChanged,
-            maxLength = 6,
             isValid = if (codeError == null && code.length == 6) true else if (codeError != null) false else null,
             errorText = codeError,
+            modifier = Modifier.focusRequester(focusRequester),
         )
         Spacer(modifier = Modifier.height(Dimensions.regularPadding))
         AuthClickableText("Нет кода?") { /* Действие */ }
@@ -54,6 +73,7 @@ fun InvitationStep(code: String, onCodeChanged: (String) -> Unit, onBack: () -> 
         OrderButton(
             text = "Регистрация",
             isActive = code.length == 6,
+            isLoading = isLoading,
             onClick = onNext
         )
     }
@@ -66,6 +86,7 @@ fun EmailStep(
     buttonText: String,
     onBack: () -> Unit,
     emailError: String?,
+    isLoading: Boolean,
     onNext: () -> Unit,
 ) {
     BaseAuthScreen(title = "Введите почту", onBack = onBack) {
@@ -82,6 +103,7 @@ fun EmailStep(
         OrderButton(
             text = buttonText,
             isActive = emailError == null && email.isNotBlank(),
+            isLoading = isLoading,
             onClick = onNext
         )
     }
@@ -92,21 +114,25 @@ fun VerifyStep(
     code: String,
     onCodeChanged: (String) -> Unit,
     onBack: () -> Unit,
-    expectedCode: String,
+    email: String,
     codeError: String?,
+    isLoading: Boolean,
+    isCodeSubmitted: Boolean,
+    retryAfterSeconds: Int,
+    onResend: () -> Unit,
     onNext: () -> Unit,
 ) {
+    val focusRequester = remember { FocusRequester() }
+
+    LaunchedEffect(Unit) {
+        focusRequester.requestFocus()
+    }
+
     BaseAuthScreen(title = "Введите код с почты", onBack = onBack) {
         Text(
-            text = "Код отправлен на почту",
+            text = "Почта: $email",
             style = OrderTheme.typography.bodySmall,
             color = Color.Gray
-        )
-        Spacer(modifier = Modifier.height(Dimensions.smallPadding))
-        Text(
-            text = "Демо-код для проверки: $expectedCode",
-            style = OrderTheme.typography.bodySmall,
-            color = Color.Gray,
         )
         Spacer(modifier = Modifier.height(Dimensions.regularPadding))
         OtpCodeInput(
@@ -114,30 +140,21 @@ fun VerifyStep(
             onCodeChanged = onCodeChanged,
             maxLength = 6,
             isOnlyNumbers = true,
+            isEnabled = !isLoading,
+            showError = isCodeSubmitted,
             isValid = if (codeError == null && code.length == 6) true else if (codeError != null) false else null,
+            modifier = Modifier.focusRequester(focusRequester),
             errorText = codeError,
         )
         Spacer(modifier = Modifier.height(Dimensions.regularPadding))
-        AuthClickableText("Отправить еще раз через 60с") { }
+        AuthClickableText("Отправить еще раз через ${retryAfterSeconds}s") { onResend() }
         Spacer(modifier = Modifier.height(Dimensions.regularPadding))
         OrderButton(
             text = "Далее",
-            isActive = codeError == null && code.length == 6,
+            isActive = codeError == null && code.length == 6 && !isLoading,
+            isLoading = isLoading,
             onClick = onNext
         )
-    }
-}
-
-@Composable
-fun AuthorizedStep(onBack: () -> Unit, onNext: () -> Unit) {
-    BaseAuthScreen(title = "Почта подтверждена", onBack = onBack) {
-        Text(
-            text = "Вы успешно подтвердили почту",
-            style = OrderTheme.typography.bodyLarge,
-            color = OrderTheme.colors.primaryTextColor.copy(alpha = 0.6f)
-        )
-        Spacer(modifier = Modifier.height(Dimensions.largePadding))
-        OrderButton(text = "Далее", onClick = onNext)
     }
 }
 
@@ -151,15 +168,24 @@ fun PasswordStep(
     onBack: () -> Unit,
     passError: String?,
     passRepeatError: String?,
+    isLoading: Boolean,
     onNext: () -> Unit,
 ) {
+    val passwordRepeatFocusRequester = remember { FocusRequester() }
+
     BaseAuthScreen(title = title, onBack = onBack) {
         OrderTextField(
             value = pass,
             onValueChange = onPassChanged,
             label = "Пароль",
             visualTransformation = PasswordVisualTransformation(),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Password,
+                imeAction = ImeAction.Next
+            ),
+            keyboardActions = KeyboardActions(
+                onNext = { passwordRepeatFocusRequester.requestFocus() }
+            ),
             isError = passError != null,
             errorText = passError,
         )
@@ -169,7 +195,14 @@ fun PasswordStep(
             onValueChange = onPassRepeatChanged,
             label = "Подтверждение пароля",
             visualTransformation = PasswordVisualTransformation(),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Password,
+                imeAction = ImeAction.Done
+            ),
+            keyboardActions = KeyboardActions(
+                onDone = { if (passError == null && passRepeatError == null) onNext() }
+            ),
+            modifier = Modifier.focusRequester(passwordRepeatFocusRequester),
             isError = passRepeatError != null,
             errorText = passRepeatError,
         )
@@ -177,6 +210,7 @@ fun PasswordStep(
         OrderButton(
             text = "Готово",
             isActive = passError == null && passRepeatError == null && pass.isNotBlank() && passRepeat.isNotBlank(),
+            isLoading = isLoading,
             onClick = onNext
         )
     }
@@ -193,6 +227,7 @@ fun LoginScreen(
     onBack: () -> Unit,
     emailError: String?,
     passError: String?,
+    isLoading: Boolean,
     onLoginClick: () -> Unit
 ) {
     BaseAuthScreen(title = "Войти", onBack = onBack) {
@@ -217,7 +252,12 @@ fun LoginScreen(
 
         Spacer(modifier = Modifier.height(Dimensions.regularPadding))
 
-        OrderButton(text = "Вход", isActive = emailError == null && email.isNotBlank() && pass.isNotBlank(), onClick = onLoginClick)
+        OrderButton(
+            text = "Вход",
+            isActive = emailError == null && email.isNotBlank() && pass.isNotBlank(),
+            isLoading = isLoading,
+            onClick = onLoginClick
+        )
 
         Spacer(modifier = Modifier.height(Dimensions.smallPadding))
 
