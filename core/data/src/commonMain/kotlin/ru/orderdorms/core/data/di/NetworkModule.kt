@@ -11,7 +11,19 @@ import ru.orderdorms.core.data.network.AuthApiService
 import ru.orderdorms.core.data.network.BackendUrlProvider
 import ru.orderdorms.core.data.network.HttpClientFactory
 import ru.orderdorms.core.data.network.KtorAuthApiService
+import ru.orderdorms.core.data.network.MockAuthApiService
 import ru.orderdorms.core.domain.auth.AuthRepository
+
+/**
+ * Флаг для использования mock datasource'а вместо реальных API вызовов.
+ * Полезен для тестирования без запущенного бэка.
+ *
+ * Для включения мок-режима:
+ * ./gradlew build -Pmock.api=true
+ *
+ * Или отредактируй это значение на true в файле.
+ */
+const val USE_MOCK_API = true  // Смени на true для мок-режима
 
 val networkModule = module {
     single {
@@ -30,11 +42,15 @@ val networkModule = module {
     single(named("finalAuthorizedClient")) { get<HttpClientFactory>().createFinalAuthorized { get<TokenStorage>().getAccessToken() } }
 
     single<AuthApiService> {
-        KtorAuthApiService(
-            httpClient = get(named("anonymousClient")),
-            json = get(),
-            baseUrl = BackendUrlProvider.resolve(),
-        )
+        if (USE_MOCK_API) {
+            MockAuthApiService()
+        } else {
+            KtorAuthApiService(
+                httpClient = get(named("anonymousClient")),
+                json = get(),
+                baseUrl = BackendUrlProvider.resolve(),
+            )
+        }
     }
 
     single<AuthRepository> { InMemoryAuthRepository(get(), get()) }

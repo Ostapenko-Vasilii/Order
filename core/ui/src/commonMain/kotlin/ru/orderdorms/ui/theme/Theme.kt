@@ -23,7 +23,8 @@ data class AppTypography(
     val bodyLarge: TextStyle = Typography.bodyLarge,
     val labelMedium: TextStyle = Typography.labelMedium,
     val bodySmall: TextStyle = Typography.bodySmall,
-    val displayMedium : TextStyle = Typography.displayMedium
+    val displayMedium : TextStyle = Typography.displayMedium,
+    val displaySmall : TextStyle = Typography.displaySmall
 )
 
 private val LocalAppTypography = staticCompositionLocalOf { AppTypography() }

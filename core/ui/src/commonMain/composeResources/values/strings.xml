@@ -2,4 +2,8 @@
     <string name="name_label">Имя</string>
     <string name="name_placeholder">Введите имя</string>
     <string name="registration_button">Регистрация</string>
+    <string name="news_title_template">Шаблон названия новости</string>
+    <string name="news_text_template">Шаблон текста новости</string>
+    <string name="event_title_template">Название события</string>
+    <string name="event_date_template">Время, дата</string>
 </resources>

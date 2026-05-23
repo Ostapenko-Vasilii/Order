@@ -9,6 +9,8 @@ kotlin {
             implementation(project(":core:data"))
             implementation(project(":core:domain"))
             implementation(project(":features:auth"))
+            implementation(project(":features:home"))
+            implementation(project(":features:services"))
             implementation(libs.koin.core)
         }
         commonTest.dependencies {
