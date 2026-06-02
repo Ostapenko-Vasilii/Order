@@ -31,6 +31,7 @@ fun ServiceCard(
     icon: ImageVector,
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {},
+    onMoreClick: () -> Unit = {},
     showMore: Boolean = true,
 ) {
     Box(
@@ -67,7 +68,8 @@ fun ServiceCard(
                         text = "•••",
                         color = Color.White.copy(alpha = 0.7f),
                         fontSize = 12.sp,
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.clickable { onMoreClick() }
                     )
                 }
             }

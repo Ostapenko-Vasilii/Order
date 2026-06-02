@@ -21,6 +21,8 @@ kotlin {
             implementation(libs.compose.material3)
             implementation(libs.compose.ui)
             implementation(libs.compose.components.resources)
+            implementation(libs.markdown.renderer)
+            implementation(libs.markdown.renderer.m3)
         }
     }
 }
@@ -29,7 +31,6 @@ compose.resources {
     publicResClass = false
     generateResClass = auto
 }
-
 
 
 

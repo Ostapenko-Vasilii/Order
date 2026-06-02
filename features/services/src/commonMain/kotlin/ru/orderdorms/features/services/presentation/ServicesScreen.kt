@@ -28,25 +28,26 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import ru.orderdorms.features.services.domain.model.Service
 import ru.orderdorms.ui.components.Dimensions
 import ru.orderdorms.ui.components.ServiceCard
 import ru.orderdorms.ui.theme.OrderTheme
 
 @Composable
-fun ServicesFlow() {
+fun ServicesFlow(onOpenService: (Service) -> Unit = {}) {
     val viewModel = rememberServicesViewModel()
     ServicesScreen(
         state = viewModel.state,
-        onSearchQueryChange = viewModel::onSearchQueryChange,
-        onToggleQuickAction = viewModel::toggleQuickAction
+        onToggleQuickAction = viewModel::toggleQuickAction,
+        onServiceClick = onOpenService
     )
 }
 
 @Composable
 fun ServicesScreen(
     state: ServicesState,
-    onSearchQueryChange: (String) -> Unit,
     onToggleQuickAction: (String) -> Unit,
+    onServiceClick: (Service) -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -116,7 +117,8 @@ fun ServicesScreen(
                     title = service.title,
                     subtitle = service.description,
                     icon = service.icon,
-                    onClick = { onToggleQuickAction(service.id) }
+                    onClick = { onServiceClick(service) },
+                    onMoreClick = { onToggleQuickAction(service.id) }
                 )
             }
 
@@ -153,7 +155,8 @@ fun ServicesScreen(
                     title = service.title,
                     subtitle = service.description,
                     icon = service.icon,
-                    onClick = { onToggleQuickAction(service.id) }
+                    onClick = { onServiceClick(service) },
+                    onMoreClick = { onToggleQuickAction(service.id) }
                 )
             }
         }

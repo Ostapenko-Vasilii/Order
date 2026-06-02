@@ -19,6 +19,9 @@ class BuiltInQuickActionsRepository(
         Service(id = "3", title = "Бронирование", icon = handshakeIco),
         Service(id = "4", title = "Заявка", icon = commentIco),
         Service(id = "5", title = "Жалоба", icon = repairIco),
+        Service(id = "6", title = "Услуги от проживающих", icon = handshakeIco),
+        Service(id = "7", title = "База Знаний", icon = commentIco),
+        Service(id = "8", title = "Барахолка", icon = paymentsIco),
     )
 
     override fun getQuickActions(): List<Service> {

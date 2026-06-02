@@ -11,4 +11,3 @@ fun MainApp(onLogout: () -> Unit, onOpenServices: () -> Unit = {}) {
 }
 
 
-
