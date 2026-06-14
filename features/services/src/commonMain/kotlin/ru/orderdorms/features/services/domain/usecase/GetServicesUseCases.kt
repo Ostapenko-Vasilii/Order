@@ -1,7 +1,7 @@
 package ru.orderdorms.features.services.domain.usecase
 
 import kotlinx.coroutines.flow.Flow
-import ru.orderdorms.features.services.domain.model.Service
+import ru.orderdorms.core.domain.model.Service
 import ru.orderdorms.features.services.domain.repository.ServicesRepository
 
 class GetServicesUseCase(private val repository: ServicesRepository) {

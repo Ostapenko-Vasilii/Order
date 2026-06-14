@@ -11,6 +11,6 @@ import ru.orderdorms.features.home.domain.repository.QuickActionsRepository
 
 val homeModule = module {
     single<HomeRepository> { HomeRepositoryImpl() }
-    single<HomeUseCases> { HomeUseCasesImpl(get(), get()) }
+    single<HomeUseCases> { HomeUseCasesImpl(get(), get(), get()) }
     single<QuickActionsRepository> { BuiltInQuickActionsRepository(get()) }
 }

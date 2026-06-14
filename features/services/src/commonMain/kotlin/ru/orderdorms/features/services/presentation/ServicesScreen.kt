@@ -28,7 +28,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import ru.orderdorms.features.services.domain.model.Service
+import order.core.ui.generated.resources.Res
+import order.core.ui.generated.resources.all_services_title
+import order.core.ui.generated.resources.other_services_title
+import order.core.ui.generated.resources.quick_panel_title
+import org.jetbrains.compose.resources.stringResource
+import ru.orderdorms.core.domain.model.Service
 import ru.orderdorms.ui.components.Dimensions
 import ru.orderdorms.ui.components.ServiceCard
 import ru.orderdorms.ui.theme.OrderTheme
@@ -56,7 +61,7 @@ fun ServicesScreen(
     ) {
         // Header
         Text(
-            text = "Все сервисы",
+            text = stringResource(Res.string.all_services_title),
             style = OrderTheme.typography.displayMedium.copy(
                 fontSize = 28.sp,
                 fontWeight = FontWeight.Bold
@@ -64,28 +69,6 @@ fun ServicesScreen(
             modifier = Modifier.padding(Dimensions.regularPadding)
         )
 
-        // Search Bar
-        Box(
-            modifier = Modifier
-                .padding(horizontal = Dimensions.regularPadding)
-                .fillMaxWidth()
-                .height(48.dp)
-                .clip(RoundedCornerShape(Dimensions.smallCornerRadius))
-                .background(Color(0xFFE0E0E0))
-                .padding(horizontal = Dimensions.smallPadding),
-            contentAlignment = Alignment.CenterStart
-        ) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                // Manual search icon placeholder
-                Box(modifier = Modifier.size(20.dp).background(Color.Gray, CircleShape))
-                Spacer(modifier = Modifier.width(Dimensions.smallPadding))
-                Text(
-                    text = "Поиск сервисов",
-                    color = Color.Gray,
-                    style = OrderTheme.typography.bodyLarge
-                )
-            }
-        }
 
         Spacer(modifier = Modifier.height(Dimensions.regularPadding))
 
@@ -103,7 +86,7 @@ fun ServicesScreen(
             // Quick Panel Section
             item(span = { GridItemSpan(2) }) {
                 Text(
-                    text = "Быстрая Панель Сервисов",
+                    text = stringResource(Res.string.quick_panel_title),
                     style = OrderTheme.typography.displayMedium.copy(
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold
@@ -141,7 +124,7 @@ fun ServicesScreen(
             // Others Section
             item(span = { GridItemSpan(2) }) {
                 Text(
-                    text = "Остальное",
+                    text = stringResource(Res.string.other_services_title),
                     style = OrderTheme.typography.displayMedium.copy(
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold

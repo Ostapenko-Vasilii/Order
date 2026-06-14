@@ -6,7 +6,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import ru.orderdorms.features.home.domain.model.Service
+import ru.orderdorms.core.domain.model.Service
 import ru.orderdorms.ui.components.Dimensions
 
 @Composable

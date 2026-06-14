@@ -14,73 +14,66 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalUriHandler
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import ru.orderdorms.features.home.domain.model.HomeDashboard
+import order.core.ui.generated.resources.Res
+import order.core.ui.generated.resources.home_actions_section
+import order.core.ui.generated.resources.home_news_section
+import order.core.ui.generated.resources.show_all
+import org.jetbrains.compose.resources.stringResource
+import ru.orderdorms.features.events.domain.model.Event
+import ru.orderdorms.features.events.presentation.components.HomeEventsRow
 import ru.orderdorms.features.home.presentation.components.QuickActionsRow
 import ru.orderdorms.ui.components.Dimensions
-import ru.orderdorms.ui.components.EventCard
+import ru.orderdorms.ui.components.MarkDownBottomSheet
 import ru.orderdorms.ui.components.NewsCard
+import ru.orderdorms.ui.icons.ArrowRightIco
 import ru.orderdorms.ui.icons.ringIco
 import ru.orderdorms.ui.theme.OrderTheme
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     state: HomeUiState,
     onRefresh: () -> Unit,
     onOpenServices: () -> Unit,
 ) {
+    var selectedEvent by remember { mutableStateOf<Event?>(null) }
+
     Box(modifier = Modifier.fillMaxSize().background(Color(0xFFF2F2F2))) {
         state.dashboard?.let { dashboard ->
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
                 contentPadding = PaddingValues(bottom = Dimensions.largePadding)
             ) {
-                // Top Bar
                 item {
                     HomeTopBar(userName = dashboard.userName)
                 }
-
-                // Search Bar
                 item {
-                    HomeSearchBar()
+                    HomeEventsRow(
+                        events = dashboard.events,
+                        onEventClick = { selectedEvent = it }
+                    )
                 }
 
-                // Events LazyRow
                 item {
-                    LazyRow(
-                        contentPadding = PaddingValues(horizontal = Dimensions.regularPadding),
-                        horizontalArrangement = Arrangement.spacedBy(Dimensions.smallPadding),
-                        modifier = Modifier.padding(vertical = Dimensions.smallPadding)
-                    ) {
-                        items(dashboard.events) { event ->
-                            EventCard(
-                                title = event.title,
-                                subtitle = event.date,
-                                imageUrl = event.imageUrl,
-                                modifier = Modifier.width(280.dp)
-                            )
-                        }
-                    }
-                }
-
-                // Important News Section
-                item {
-                    SectionHeader(title = "Важные Новости", onShowAllClick = onOpenServices)
+                    SectionHeader(title = stringResource(Res.string.home_news_section), onShowAllClick = onOpenServices)
                 }
 
                 items(dashboard.importantNews) { news ->
@@ -90,13 +83,13 @@ fun HomeScreen(
                         icon = news.icon,
                         modifier = Modifier
                             .padding(horizontal = Dimensions.regularPadding, vertical = Dimensions.tinyPadding)
+                            .height(100.dp)
                             .fillMaxWidth()
                     )
                 }
 
-                // Quick Actions Section
                 item {
-                    SectionHeader(title = "Быстрые Действия", onShowAllClick = onOpenServices)
+                    SectionHeader(title = stringResource(Res.string.home_actions_section), onShowAllClick = onOpenServices)
                 }
 
                 item {
@@ -127,6 +120,13 @@ fun HomeScreen(
                 modifier = Modifier.align(Alignment.Center).clickable { onRefresh() }
             )
         }
+
+        selectedEvent?.let { event ->
+            MarkDownBottomSheet(
+                data = event.descriptionMarkdown,
+                onDismiss = {  selectedEvent = null }
+            )
+        }
     }
 }
 
@@ -135,14 +135,15 @@ private fun HomeTopBar(userName: String) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(Dimensions.regularPadding),
-        verticalAlignment = Alignment.CenterVertically,
+            .padding(horizontal = Dimensions.regularPadding)
+            .padding(top = Dimensions.extraLargePadding, bottom = Dimensions.extraSmallPadding),
+        verticalAlignment = Alignment.Bottom,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
+        Row(verticalAlignment = Alignment.Bottom) {
             Box(
                 modifier = Modifier
-                    .size(40.dp)
+                    .size(35.dp)
                     .clip(CircleShape)
                     .background(Color(0xFF333333))
             )
@@ -150,60 +151,32 @@ private fun HomeTopBar(userName: String) {
             Text(
                 text = userName,
                 style = OrderTheme.typography.displayMedium.copy(
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight.Bold
+                    fontSize = 24.sp
                 )
             )
-            Text(
-                text = " >",
-                style = OrderTheme.typography.displayMedium.copy(
-                    fontSize = 24.sp,
-                    color = Color.Gray
-                )
-            )
+            Icon(
+                imageVector = ArrowRightIco,
+                contentDescription = null,
+                modifier = Modifier.size(20.dp).padding(start = Dimensions.tinyPadding, bottom = Dimensions.tinyPadding + 2.dp),
+                tint = Color(0xFF34383A))
         }
         Box(
             modifier = Modifier
-                .size(40.dp)
+                .size(35.dp)
                 .clip(CircleShape)
-                .background(Color(0xFFE0E0E0)),
+                .background(Color(0xFF666666)),
             contentAlignment = Alignment.Center
         ) {
             Icon(
                 imageVector = ringIco,
                 contentDescription = null,
-                modifier = Modifier.size(24.dp),
-                tint = Color(0xFF666666)
+                modifier = Modifier.size(16.dp),
+                tint = Color(0xFFE0E0E0)
             )
         }
     }
 }
 
-@Composable
-private fun HomeSearchBar() {
-    Row(
-        modifier = Modifier
-            .padding(horizontal = Dimensions.regularPadding)
-            .fillMaxWidth()
-            .height(48.dp)
-            .clip(RoundedCornerShape(Dimensions.smallCornerRadius))
-            .background(Color(0xFFE0E0E0))
-            .padding(horizontal = Dimensions.smallPadding),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Box(
-            modifier = Modifier
-                .size(20.dp)
-                .background(Color.Gray, CircleShape)
-        )
-        Spacer(modifier = Modifier.width(Dimensions.tinyPadding))
-        Text(
-            text = "Поиск",
-            color = Color.Gray,
-            style = OrderTheme.typography.bodyLarge
-        )
-    }
-}
 
 @Composable
 private fun SectionHeader(
@@ -221,14 +194,12 @@ private fun SectionHeader(
             text = title,
             style = OrderTheme.typography.displayMedium.copy(
                 fontSize = 18.sp,
-                fontWeight = FontWeight.Bold
             )
         )
         Text(
-            text = "Показать Все",
-            style = OrderTheme.typography.bodyLarge.copy(
+            text = stringResource(Res.string.show_all),
+            style = OrderTheme.typography.labelLarge.copy(
                 color = Color.Gray,
-                fontSize = 14.sp
             ),
             modifier = Modifier.clickable { onShowAllClick() }
         )

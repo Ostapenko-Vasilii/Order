@@ -17,7 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import ru.orderdorms.features.home.domain.model.Service
+import ru.orderdorms.core.domain.model.Service
 import ru.orderdorms.ui.theme.OrderTheme
 
 @Composable
@@ -30,9 +30,9 @@ fun QuickActionItem(
     ) {
         Box(
             modifier = Modifier
-                .size(64.dp)
+                .size(80.dp)
                 .clip(CircleShape)
-                .background(Color(0xFFB0B3B8))
+                .background(Color(0xFFB2B6BA))
                 .clickable { onClick() },
             contentAlignment = Alignment.Center
         ) {

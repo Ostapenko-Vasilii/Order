@@ -1,6 +1,6 @@
 package ru.orderdorms.features.services.presentation
 
-import ru.orderdorms.features.services.domain.model.Service
+import ru.orderdorms.core.domain.model.Service
 
 data class ServicesState(
     val allServices: List<Service> = emptyList(),

@@ -8,6 +8,7 @@ kotlin {
             implementation(project(":core:ui"))
             implementation(project(":core:domain"))
             implementation(project(":features:services"))
+            implementation(project(":features:events"))
             implementation(libs.kotlinx.serialization)
             implementation(libs.koin.core)
             implementation(libs.multiplatform.settings)

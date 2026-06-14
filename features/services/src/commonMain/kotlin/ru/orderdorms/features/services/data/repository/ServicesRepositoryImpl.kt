@@ -4,7 +4,7 @@ import com.russhwolf.settings.Settings
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
-import ru.orderdorms.features.services.domain.model.Service
+import ru.orderdorms.core.domain.model.Service
 import ru.orderdorms.features.services.domain.repository.ServicesRepository
 import ru.orderdorms.ui.icons.cleaningIco
 import ru.orderdorms.ui.icons.commentIco
@@ -17,7 +17,7 @@ class ServicesRepositoryImpl(
 ) : ServicesRepository {
 
     private val allServices = listOf(
-        Service("1", "Оплата Общежития", "Шаблон", paymentsIco),
+        Service("1", "Оплата Общежития", "Шаблон", paymentsIco, url = "https://pay.urfu.ru/direct"),
         Service("2", "Забронировать место", "Шаблон", handshakeIco),
         Service("3", "График Уборки", "Шаблон", cleaningIco),
         Service("4", "Подать Заявку", "Шаблон", commentIco),
