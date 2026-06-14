@@ -1,0 +1,3 @@
+[submodule ".agent/skills/kmp-cmp-app-builder"]
+	path = .agent/skills/kmp-cmp-app-builder
+	url = https://github.com/firdaus1453/kmp-skill.git

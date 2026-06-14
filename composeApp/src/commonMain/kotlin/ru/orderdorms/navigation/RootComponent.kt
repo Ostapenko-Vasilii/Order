@@ -20,16 +20,25 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.unit.dp
+import order.core.ui.generated.resources.Res
+import order.core.ui.generated.resources.back_button
+import order.core.ui.generated.resources.tab_events
+import order.core.ui.generated.resources.tab_home
+import order.core.ui.generated.resources.tab_notifications
+import order.core.ui.generated.resources.tab_services
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.serialization.Serializable
+import org.jetbrains.compose.resources.StringResource
+import org.jetbrains.compose.resources.stringResource
 import org.koin.mp.KoinPlatform
 import ru.orderdorms.core.domain.auth.AuthRepository
 import ru.orderdorms.features.auth.presentation.AuthFlow
 import ru.orderdorms.features.home.presentation.HomeFlow
+import ru.orderdorms.features.events.presentation.EventsScreen
 import androidx.compose.ui.platform.LocalUriHandler
+import ru.orderdorms.core.domain.model.Service
 import ru.orderdorms.features.services.presentation.faq.FaqFlow
-import ru.orderdorms.features.services.domain.model.Service
 import ru.orderdorms.features.services.presentation.ServicesFlow
 import ru.orderdorms.ui.icons.calendarIco
 import ru.orderdorms.ui.icons.dormIco
@@ -43,11 +52,11 @@ enum class RootScreen {
     HOME,
 }
 
-private enum class MainTab(val title: String) {
-    HOME("Общага"),
-    EVENTS("События"),
-    NOTIFICATIONS("Оповещения"),
-    SERVICES("Сервисы"),
+private enum class MainTab(val titleRes: StringResource) {
+    HOME(Res.string.tab_home),
+    EVENTS(Res.string.tab_events),
+    NOTIFICATIONS(Res.string.tab_notifications),
+    SERVICES(Res.string.tab_services),
 }
 
 class RootController(
@@ -118,11 +127,11 @@ fun RootContent(rootController: RootController) {
                                         }
                                         Icon(
                                             imageVector = ico,
-                                            contentDescription = tab.title,
+                                            contentDescription = stringResource(tab.titleRes),
                                             tint = if (tab == tabState.value) OrderTheme.colors.activeColor else OrderTheme.colors.primaryTextColor
                                         )
                                     },
-                                    label = { Text(tab.title, color = OrderTheme.colors.primaryTextColor) }
+                                    label = { Text(stringResource(tab.titleRes), color = OrderTheme.colors.primaryTextColor) }
                                 )
                             }
                         }
@@ -131,8 +140,8 @@ fun RootContent(rootController: RootController) {
                         Box(modifier = Modifier.padding(inner).fillMaxSize()) {
                         when (tabState.value) {
                             MainTab.HOME -> HomeFlow(onLogout = rootController::onLogout, onOpenServices = { tabState.value = MainTab.SERVICES })
-                            MainTab.EVENTS -> PlaceholderScreen("События")
-                            MainTab.NOTIFICATIONS -> PlaceholderScreen("Оповещения")
+                            MainTab.EVENTS -> EventsScreen()
+                            MainTab.NOTIFICATIONS -> PlaceholderScreen(Res.string.tab_notifications)
                             MainTab.SERVICES -> ServicesFlow(onOpenService = { openedService.value = it })
                         }
                     }
@@ -143,11 +152,11 @@ fun RootContent(rootController: RootController) {
 }
 
 @Composable
-private fun PlaceholderScreen(title: String) {
+private fun PlaceholderScreen(resource: StringResource) {
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
-        Text(text = title, color = OrderTheme.colors.primaryTextColor)
+        Text(text = stringResource(resource), color = OrderTheme.colors.primaryTextColor)
     }
 }
 
@@ -166,7 +175,7 @@ private fun ServiceDetailScreen(
         ) {
             Text(text = service.title, color = OrderTheme.colors.primaryTextColor)
             Button(onClick = onBack) {
-                Text(text = "Назад")
+                Text(text = stringResource(Res.string.back_button))
             }
         }
     }

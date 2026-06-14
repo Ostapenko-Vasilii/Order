@@ -1,0 +1,92 @@
+╔════════════════════════════════════════════════════════════════════╗
+║   ORDER AUTH API — Documentation Index                            ║
+║   Создано: 19 мая 2026                                            ║
+╚════════════════════════════════════════════════════════════════════╝
+📚 ГЛАВНЫЕ ДОКУМЕНТЫ:
+1. README_AUTH_IMPL.md (12 KB)
+   └─ Стартовый файл проекта ~ архитектура ~ быстрый старт
+   └─> Читай ПЕРВЫМ
+2. docs/GETTING_STARTED.md (9.4 KB)
+   └─ Навигатор всей документации ~ как нее использовать
+   └─> Читай ВТОРЫМ (для понимания структуры)
+3. docs/README.md (в папке docs/)
+   └─ Индекс всех документов ~ статистика ~ быстрые ссылки
+───────────────────────────────────────────────────────────────────
+🚀 БЫСТРЫЙ СТАРТ:
+Для Frontend (Kotlin KMP):
+  $ cd /home/user/StudioProjects/Order
+  $ ./scripts/dev-launcher.sh
+  Выбрать "1. Wasm"
+  ✓ Откроется браузер на http://localhost:XXXX
+Для Backend (FastAPI):
+  1. Открыть: docs/BACKEND_PROMPT_FOR_LLM.md
+  2. Скопировать раздел "ЗАДАЧА ДЛЯ LLM"
+  3. Вставить в ChatGPT / Claude
+  4. Получить код → сохранить в main.py / requirements.txt
+  5. python main.py
+  ✓ Backend на http://localhost:8000
+───────────────────────────────────────────────────────────────────
+📂 ВСЕ ДОКУМЕНТЫ (9 файлов):
+Frontend разработчикам:
+  ✓ README_AUTH_IMPL.md (главный README)
+  ✓ docs/FRONTEND_STATUS.md (архитектура фронта)
+  ✓ docs/LOCAL_DEV_SETUP.md (как запустить)
+  ✓ docs/QUICK_REFERENCE.md (команды Gradle, curl)
+  ✓ scripts/dev-launcher.sh (интерактивный скрипт)
+Backend разработчикам:
+  ✓ docs/BACKEND_PROMPT_FOR_LLM.md (ГЛАВНЫЙ ~ copy-paste в LLM!)
+  ✓ docs/BACKEND_CHECKLIST.md (чек-лист endpoints)
+  ✓ docs/BACKEND_CORS_PROMPT.md (промпт на CORS)
+  ✓ docs/cors_middleware_fastapi.py (готовый код)
+Всем:
+  ✓ docs/GETTING_STARTED.md (навигатор документации)
+  ✓ docs/LOCAL_DEV_SETUP.md (dev setup для обоих)
+  ✓ docs/QUICK_REFERENCE.md (быстрая справка)
+  ✓ docs/README.md (индекс документов)
+───────────────────────────────────────────────────────────────────
+🎯 БЫСТРЫЕ ССЫЛКИ:
+"Я хочу запустить фронт"
+  → docs/LOCAL_DEV_SETUP.md (Frontend часть)
+"Я хочу создать backend с LLM"
+  → docs/BACKEND_PROMPT_FOR_LLM.md (скопировать весь текст)
+"Я хочу создать backend вручную"
+  → docs/BACKEND_CHECKLIST.md (чек-лист)
+  → docs/cors_middleware_fastapi.py (готовый CORS код)
+"Я получил CORS error"
+  → docs/LOCAL_DEV_SETUP.md → Типовые ошибки
+"Я не знаю какую команду использовать"
+  → docs/QUICK_REFERENCE.md
+"Я новый в проекте"
+  → README_AUTH_IMPL.md
+  → docs/GETTING_STARTED.md
+───────────────────────────────────────────────────────────────────
+🔧 СТАТУС:
+Frontend (Kotlin KMP):      ✅ ГОТОВ
+  - Android, iOS, Wasm, JS
+  - Compose UI
+  - Auth endpoints интегрированы
+  - Ktor HttpClient
+  - Koin DI
+Backend (FastAPI):         ⏳ ДОКУМЕНТАЦИЯ ГОТОВА
+  - Ждёт реализации
+  - Есть промпт для LLM
+  - Есть чек-лист
+  - Есть готовый CORS код
+CORS:                       ✅ ГОТОВ (код есть)
+───────────────────────────────────────────────────────────────────
+📊 СТАТИСТИКА:
+Документов:          9 файлов
+Строк кода/док:      ~2500+
+Размер:              ~60 KB
+API endpoints:       9 (Register, Login, Forgot-Pass)
+Платформы:           Android, iOS, Web (Wasm + JS)
+───────────────────────────────────────────────────────────────────
+❓ НУЖНА ПОМОЩЬ?
+1. Читай docs/GETTING_STARTED.md (навигатор)
+2. Ищи свой вопрос в таблице там
+3. Перейди по ссылке на нужный документ
+4. Готово!
+───────────────────────────────────────────────────────────────────
+Все файлы в папке: /home/user/StudioProjects/Order/
+Начни c: README_AUTH_IMPL.md
+Удачи! 🚀

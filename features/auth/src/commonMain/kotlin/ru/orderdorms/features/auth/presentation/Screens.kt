@@ -17,6 +17,28 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import order.features.auth.generated.resources.Res
+import order.features.auth.generated.resources.done_button
+import order.features.auth.generated.resources.email_label
+import order.features.auth.generated.resources.email_placeholder
+import order.features.auth.generated.resources.email_title
+import order.features.auth.generated.resources.forgot_password
+import order.features.auth.generated.resources.invitation_title
+import order.features.auth.generated.resources.login_action
+import order.features.auth.generated.resources.login_button
+import order.features.auth.generated.resources.login_title
+import order.features.auth.generated.resources.next_button
+import order.features.auth.generated.resources.no_account_register
+import order.features.auth.generated.resources.no_code
+import order.features.auth.generated.resources.password_label
+import order.features.auth.generated.resources.password_placeholder
+import order.features.auth.generated.resources.password_repeat_label
+import order.features.auth.generated.resources.password_repeat_placeholder
+import order.features.auth.generated.resources.register
+import order.features.auth.generated.resources.resend_code
+import order.features.auth.generated.resources.verify_title
+import order.features.auth.generated.resources.welcome_subtitle
+import org.jetbrains.compose.resources.stringResource
 import ru.orderdorms.features.auth.presentation.components.BaseAuthScreen
 import ru.orderdorms.ui.components.Dimensions
 import ru.orderdorms.ui.components.OrderButton
@@ -26,17 +48,17 @@ import ru.orderdorms.ui.theme.OrderTheme
 
 @Composable
 fun WelcomeScreen(onLogin: () -> Unit, onRegister: () -> Unit) {
-    BaseAuthScreen(title = "Текст-логотип") {
+    BaseAuthScreen(title = "Order") {
         Text(
-            text = "Управляйте своей жизнью в общежитии!",
+            text = stringResource(Res.string.welcome_subtitle),
             style = OrderTheme.typography.bodyLarge,
             color = OrderTheme.colors.primaryTextColor.copy(alpha = 0.6f),
             modifier = Modifier.padding(bottom = Dimensions.largePadding)
         )
-        OrderButton(text = "Войти в аккаунт", onClick = onLogin)
+        OrderButton(text = stringResource(Res.string.login_button), onClick = onLogin)
         Spacer(modifier = Modifier.height(Dimensions.smallPadding))
         OrderButton(
-            text = "Регистрация",
+            text = stringResource(Res.string.register),
             onClick = onRegister,
             containerColor = OrderTheme.colors.bgPlaceholderColor,
             contentColor = OrderTheme.colors.primaryTextColor
@@ -59,7 +81,7 @@ fun InvitationStep(
         focusRequester.requestFocus()
     }
     
-    BaseAuthScreen(title = "Введите код приглашения", onBack = onBack) {
+    BaseAuthScreen(title = stringResource(Res.string.invitation_title), onBack = onBack) {
         OtpCodeInput(
             code = code,
             onCodeChanged = onCodeChanged,
@@ -68,10 +90,10 @@ fun InvitationStep(
             modifier = Modifier.focusRequester(focusRequester),
         )
         Spacer(modifier = Modifier.height(Dimensions.regularPadding))
-        AuthClickableText("Нет кода?") { /* Действие */ }
+        AuthClickableText(stringResource(Res.string.no_code)) { /* Действие */ }
         Spacer(modifier = Modifier.height(Dimensions.regularPadding))
         OrderButton(
-            text = "Регистрация",
+            text = stringResource(Res.string.register),
             isActive = code.length == 6,
             isLoading = isLoading,
             onClick = onNext
@@ -89,12 +111,12 @@ fun EmailStep(
     isLoading: Boolean,
     onNext: () -> Unit,
 ) {
-    BaseAuthScreen(title = "Введите почту", onBack = onBack) {
+    BaseAuthScreen(title = stringResource(Res.string.email_title), onBack = onBack) {
         OrderTextField(
             value = email,
             onValueChange = onEmailChanged,
-            label = "Почта",
-            placeholder = "example@mail.ru",
+            label = stringResource(Res.string.email_label),
+            placeholder = stringResource(Res.string.email_placeholder),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
             isError = emailError != null,
             errorText = emailError,
@@ -128,9 +150,9 @@ fun VerifyStep(
         focusRequester.requestFocus()
     }
 
-    BaseAuthScreen(title = "Введите код с почты", onBack = onBack) {
+    BaseAuthScreen(title = stringResource(Res.string.verify_title), onBack = onBack) {
         Text(
-            text = "Почта: $email",
+            text = "${stringResource(Res.string.email_label)}: $email",
             style = OrderTheme.typography.bodySmall,
             color = Color.Gray
         )
@@ -147,10 +169,10 @@ fun VerifyStep(
             errorText = codeError,
         )
         Spacer(modifier = Modifier.height(Dimensions.regularPadding))
-        AuthClickableText("Отправить еще раз через ${retryAfterSeconds}s") { onResend() }
+        AuthClickableText(stringResource(Res.string.resend_code, retryAfterSeconds)) { onResend() }
         Spacer(modifier = Modifier.height(Dimensions.regularPadding))
         OrderButton(
-            text = "Далее",
+            text = stringResource(Res.string.next_button),
             isActive = codeError == null && code.length == 6 && !isLoading,
             isLoading = isLoading,
             onClick = onNext
@@ -177,7 +199,8 @@ fun PasswordStep(
         OrderTextField(
             value = pass,
             onValueChange = onPassChanged,
-            label = "Пароль",
+            label = stringResource(Res.string.password_label),
+            placeholder = stringResource(Res.string.password_placeholder),
             visualTransformation = PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Password,
@@ -193,7 +216,8 @@ fun PasswordStep(
         OrderTextField(
             value = passRepeat,
             onValueChange = onPassRepeatChanged,
-            label = "Подтверждение пароля",
+            label = stringResource(Res.string.password_repeat_label),
+            placeholder = stringResource(Res.string.password_repeat_placeholder),
             visualTransformation = PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Password,
@@ -208,7 +232,7 @@ fun PasswordStep(
         )
         Spacer(modifier = Modifier.height(Dimensions.largePadding))
         OrderButton(
-            text = "Готово",
+            text = stringResource(Res.string.done_button),
             isActive = passError == null && passRepeatError == null && pass.isNotBlank() && passRepeat.isNotBlank(),
             isLoading = isLoading,
             onClick = onNext
@@ -230,11 +254,12 @@ fun LoginScreen(
     isLoading: Boolean,
     onLoginClick: () -> Unit
 ) {
-    BaseAuthScreen(title = "Войти", onBack = onBack) {
+    BaseAuthScreen(title = stringResource(Res.string.login_title), onBack = onBack) {
         OrderTextField(
             value = email,
             onValueChange = onEmailChanged,
-            label = "Почта",
+            label = stringResource(Res.string.email_label),
+            placeholder = stringResource(Res.string.email_placeholder),
             isError = emailError != null,
             errorText = emailError,
         )
@@ -242,18 +267,19 @@ fun LoginScreen(
         OrderTextField(
             value = pass,
             onValueChange = onPassChanged,
-            label = "Пароль",
+            label = stringResource(Res.string.password_label),
+            placeholder = stringResource(Res.string.password_placeholder),
             visualTransformation = PasswordVisualTransformation(),
             isError = passError != null,
             errorText = passError,
         )
 
-        AuthClickableText("Забыли пароль?") { onForgotPassword() }
+        AuthClickableText(stringResource(Res.string.forgot_password)) { onForgotPassword() }
 
         Spacer(modifier = Modifier.height(Dimensions.regularPadding))
 
         OrderButton(
-            text = "Вход",
+            text = stringResource(Res.string.login_action),
             isActive = emailError == null && email.isNotBlank() && pass.isNotBlank(),
             isLoading = isLoading,
             onClick = onLoginClick
@@ -261,7 +287,7 @@ fun LoginScreen(
 
         Spacer(modifier = Modifier.height(Dimensions.smallPadding))
 
-        AuthClickableText("Нет аккаунта? Регистрация") { onRegClick() }
+        AuthClickableText(stringResource(Res.string.no_account_register)) { onRegClick() }
     }
 }
 

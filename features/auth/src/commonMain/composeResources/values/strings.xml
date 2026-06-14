@@ -2,4 +2,23 @@
 <resources>
     <string name="login">Войти</string>
     <string name="register">Зарегистрироваться</string>
+    <string name="welcome_subtitle">Управляйте своей жизнью в общежитии!</string>
+    <string name="login_button">Войти в аккаунт</string>
+    <string name="invitation_title">Введите код приглашения</string>
+    <string name="no_code">Нет кода?</string>
+    <string name="email_title">Введите почту</string>
+    <string name="email_label">Почта</string>
+    <string name="email_placeholder">example@mail.ru</string>
+    <string name="verify_title">Введите код с почты</string>
+    <string name="resend_code">Отправить еще раз через %1$ds</string>
+    <string name="next_button">Далее</string>
+    <string name="password_label">Пароль</string>
+    <string name="password_placeholder">Введите пароль</string>
+    <string name="password_repeat_label">Подтверждение пароля</string>
+    <string name="password_repeat_placeholder">Повторите пароль</string>
+    <string name="done_button">Готово</string>
+    <string name="forgot_password">Забыли пароль?</string>
+    <string name="login_title">Войти</string>
+    <string name="login_action">Вход</string>
+    <string name="no_account_register">Нет аккаунта? Регистрация</string>
 </resources>
