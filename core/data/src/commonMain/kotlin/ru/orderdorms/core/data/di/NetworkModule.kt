@@ -1,6 +1,7 @@
 package ru.orderdorms.core.data.di
 
 import com.russhwolf.settings.Settings
+import kotlinx.datetime.Clock
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import kotlinx.serialization.json.Json
@@ -54,6 +55,8 @@ val networkModule = module {
     }
 
     single<AuthRepository> { InMemoryAuthRepository(get(), get()) }
+
+    single<Clock> { Clock.System }
 }
 
 

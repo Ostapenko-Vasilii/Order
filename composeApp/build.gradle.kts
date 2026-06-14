@@ -11,6 +11,7 @@ kotlin {
             implementation(project(":features:auth"))
             implementation(project(":features:home"))
             implementation(project(":features:services"))
+            implementation(project(":features:events"))
             implementation(libs.koin.core)
         }
         commonTest.dependencies {

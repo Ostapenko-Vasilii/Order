@@ -4,6 +4,7 @@ import org.koin.core.context.GlobalContext
 import org.koin.core.context.startKoin
 import ru.orderdorms.core.data.di.networkModule
 import ru.orderdorms.features.auth.di.authModule
+import ru.orderdorms.features.events.di.eventsModule
 import ru.orderdorms.features.home.di.homeModule
 import ru.orderdorms.features.services.di.servicesModule
 
@@ -16,6 +17,7 @@ fun initKoinIfNeeded() {
             authModule,
             homeModule,
             servicesModule,
+            eventsModule,
         )
     }
 }
