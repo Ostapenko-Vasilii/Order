@@ -13,6 +13,7 @@ import kotlin.time.Duration.Companion.minutes
 class FaqRepositoryImpl(
     private val mockDataSource: FaqMockDataSource,
     private val apiDataSource: FaqApiDataSource,
+    private val clock: Clock,
     private val useMock: Boolean = true
 ) : FaqRepository {
 
@@ -21,7 +22,7 @@ class FaqRepositoryImpl(
     private val cacheDuration = 30.minutes
 
     override fun getFaqCategories(): Flow<List<FaqCategory>> = flow {
-        val now = Clock.System.now()
+        val now = clock.now()
         val cache = cachedData
         val last = lastFetchTime
         

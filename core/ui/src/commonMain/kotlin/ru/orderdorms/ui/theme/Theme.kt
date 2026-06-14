@@ -9,7 +9,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextStyle
+import androidx.compose.material3.Typography
+import com.mikepenz.markdown.compose.LocalMarkdownTypography
+import com.mikepenz.markdown.model.MarkdownTypography
 
 data class AppColors(
     val onBackground: Color,
@@ -18,16 +20,8 @@ data class AppColors(
     val bgPlaceholderColor: Color = Color.Gray
 )
 
-data class AppTypography(
-    val headlineMedium: TextStyle = Typography.headlineMedium,
-    val bodyLarge: TextStyle = Typography.bodyLarge,
-    val labelMedium: TextStyle = Typography.labelMedium,
-    val bodySmall: TextStyle = Typography.bodySmall,
-    val displayMedium : TextStyle = Typography.displayMedium,
-    val displaySmall : TextStyle = Typography.displaySmall
-)
 
-private val LocalAppTypography = staticCompositionLocalOf { AppTypography() }
+
 private val LightAppColors = AppColors(
     onBackground = OnBackground,
     primaryTextColor = PrimaryTextColor,
@@ -41,6 +35,7 @@ private val DarkAppColors = AppColors(
 )
 
 private val LocalAppColors = staticCompositionLocalOf { LightAppColors }
+private val LocalAppTypography = staticCompositionLocalOf { Typography() }
 
 private fun buildColorSchemeFromApp(colors: AppColors): ColorScheme =
     lightColorScheme(
@@ -60,15 +55,17 @@ fun OrderTheme(
     val appColors = if (darkTheme) DarkAppColors else LightAppColors
     val materialColors = if (darkTheme) buildDarkColorSchemeFromApp(appColors) else buildColorSchemeFromApp(appColors)
 
-    val appTypography = AppTypography()
+    val appTypography = getAppTypography()
+    val markdownTypography = getMarkdownTypography()
 
     CompositionLocalProvider(
         LocalAppColors provides appColors,
-        LocalAppTypography provides appTypography
+        LocalAppTypography provides appTypography,
+        LocalMarkdownTypography provides markdownTypography
     ) {
         MaterialTheme(
             colorScheme = materialColors,
-            typography = Typography,
+            typography = appTypography,
             content = content,
         )
     }
@@ -79,7 +76,11 @@ object OrderTheme {
         @Composable
         get() = LocalAppColors.current
 
-    val typography: AppTypography
+    val typography: Typography
         @Composable
         get() = LocalAppTypography.current
+
+    val markdownTypography: MarkdownTypography
+        @Composable
+        get() = LocalMarkdownTypography.current
 }

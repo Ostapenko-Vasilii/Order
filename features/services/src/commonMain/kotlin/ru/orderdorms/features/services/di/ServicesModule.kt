@@ -29,6 +29,7 @@ val servicesModule = module {
         FaqRepositoryImpl(
             mockDataSource = get(),
             apiDataSource = get(),
+            clock = get(),
             useMock = true // Set to false to use real API
         ) 
     }

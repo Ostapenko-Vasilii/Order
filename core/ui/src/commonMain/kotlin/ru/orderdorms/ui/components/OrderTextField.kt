@@ -16,9 +16,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.tooling.preview.Preview
-import order.core.ui.generated.resources.Res
-import order.core.ui.generated.resources.name_label
-import order.core.ui.generated.resources.name_placeholder
 
 import org.jetbrains.compose.resources.stringResource
 import ru.orderdorms.ui.theme.OrderTheme
@@ -28,8 +25,8 @@ fun OrderTextField(
     value: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
-    label: String = stringResource(Res.string.name_label),
-    placeholder: String = stringResource(Res.string.name_placeholder),
+    label: String = "",
+    placeholder: String = "",
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     visualTransformation: VisualTransformation = VisualTransformation.None,
