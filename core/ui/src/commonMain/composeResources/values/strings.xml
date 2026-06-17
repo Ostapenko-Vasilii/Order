@@ -1,22 +1,6 @@
 <resources>
-    <string name="name_label">Имя</string>
-    <string name="name_placeholder">Введите имя</string>
-    <string name="registration_button">Регистрация</string>
     <string name="news_title_template">Шаблон названия новости</string>
     <string name="news_text_template">Шаблон текста новости</string>
     <string name="event_title_template">Название события</string>
     <string name="event_date_template">Время, дата</string>
-    <string name="tab_home">Общага</string>
-    <string name="tab_events">События</string>
-    <string name="tab_notifications">Оповещения</string>
-    <string name="tab_services">Сервисы</string>
-    <string name="back_button">Назад</string>
-    <string name="home_news_section">Важные Новости</string>
-    <string name="home_actions_section">Быстрые Действия</string>
-    <string name="show_all">Показать Все</string>
-    <string name="search_events_placeholder">Поиск событий</string>
-    <string name="all_events_title">Все События</string>
-    <string name="all_services_title">Все сервисы</string>
-    <string name="quick_panel_title">Быстрая Панель Сервисов</string>
-    <string name="other_services_title">Остальное</string>
 </resources>

@@ -33,7 +33,7 @@ class UiPlugin : Plugin<Project> {
                         implementation(getLibraryFromLibsToml("compose-foundation"))
                         implementation(getLibraryFromLibsToml("compose-material3"))
                         implementation(getLibraryFromLibsToml("compose-ui"))
-                        implementation(getLibraryFromLibsToml("compose-components-resources"))
+                        api(getLibraryFromLibsToml("compose-components-resources"))
                         implementation(getLibraryFromLibsToml("compose-uiToolingPreview"))
                         implementation(getLibraryFromLibsToml("coil"))
                         implementation(getLibraryFromLibsToml("coil-network-ktor"))

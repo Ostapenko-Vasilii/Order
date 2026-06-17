@@ -1,0 +1,7 @@
+<resources>
+    <string name="tab_home">Общага</string>
+    <string name="tab_events">События</string>
+    <string name="tab_notifications">Оповещения</string>
+    <string name="tab_services">Сервисы</string>
+    <string name="back_button">Назад</string>
+</resources>

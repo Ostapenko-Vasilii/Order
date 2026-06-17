@@ -5,7 +5,7 @@ plugins {
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            implementation(project(":core:ui"))
+            api(project(":core:ui"))
             implementation(project(":core:data"))
             implementation(project(":core:domain"))
             implementation(project(":features:auth"))
@@ -21,5 +21,11 @@ kotlin {
             implementation(libs.compose.uiTooling)
         }
     }
+}
+
+compose.resources {
+    publicResClass = true
+    generateResClass = auto
+    packageOfResClass = "ru.orderdorms.composeapp.resources"
 }
 

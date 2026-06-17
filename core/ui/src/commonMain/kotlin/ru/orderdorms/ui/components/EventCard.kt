@@ -24,10 +24,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
-import ru.orderdorms.ui.resources.Res
-import ru.orderdorms.ui.resources.event_date_template
-import ru.orderdorms.ui.resources.event_title_template
-import org.jetbrains.compose.resources.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import ru.orderdorms.ui.theme.OrderTheme
 
@@ -102,6 +98,7 @@ fun EventCard(
                             color = if (imageUrl != null) Color.White.copy(alpha = 0.8f) else Color(
                                 0xFF6B7280
                             ),
+                            fontSize = 12.sp
                         ),
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
@@ -112,7 +109,8 @@ fun EventCard(
                             text = location,
                             textAlign = TextAlign.End,
                             style = OrderTheme.typography.labelLarge.copy(
-                                color = if (imageUrl != null) Color.White.copy(alpha = 0.8f) else Color(0xFF6B7280)
+                                color = if (imageUrl != null) Color.White.copy(alpha = 0.8f) else Color(0xFF6B7280),
+                                fontSize = 12.sp
                             ),
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis
@@ -130,8 +128,8 @@ fun EventCardPreview() {
     OrderTheme {
         Box(modifier = Modifier.padding(Dimensions.largePadding)) {
             EventCard(
-                title = stringResource(Res.string.event_title_template),
-                subtitle = stringResource(Res.string.event_date_template),
+                title = "Название события",
+                subtitle = "Время, дата",
                 location = "Место",
                 imageUrl = null
             )

@@ -30,10 +30,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import ru.orderdorms.ui.resources.Res
-import ru.orderdorms.ui.resources.all_events_title
-import ru.orderdorms.ui.resources.search_events_placeholder
-import org.jetbrains.compose.resources.stringResource
 import com.mikepenz.markdown.m3.Markdown
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.Icon
@@ -56,7 +52,7 @@ fun EventsScreen(
     Box(modifier = Modifier.fillMaxSize().background(Color(0xFFF2F2F2))) {
         Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
             Text(
-                text = stringResource(Res.string.all_events_title),
+                text = "Все События",
                 style = OrderTheme.typography.displayMedium.copy(
                     fontSize = 28.sp,
                     fontWeight = FontWeight.Bold
@@ -146,7 +142,7 @@ private fun SearchBar(
             decorationBox = { innerTextField ->
                 if (query.isEmpty()) {
                     Text(
-                        text = stringResource(Res.string.search_events_placeholder),
+                        text = "Поиск событий",
                         color = Color.Gray,
                         style = OrderTheme.typography.bodyLarge
                     )

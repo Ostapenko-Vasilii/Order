@@ -28,11 +28,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import ru.orderdorms.ui.resources.Res
-import ru.orderdorms.ui.resources.all_services_title
-import ru.orderdorms.ui.resources.other_services_title
-import ru.orderdorms.ui.resources.quick_panel_title
-import org.jetbrains.compose.resources.stringResource
 import ru.orderdorms.core.domain.model.Service
 import ru.orderdorms.ui.components.Dimensions
 import ru.orderdorms.ui.components.ServiceCard
@@ -61,7 +56,7 @@ fun ServicesScreen(
     ) {
         // Header
         Text(
-            text = stringResource(Res.string.all_services_title),
+            text = "Все сервисы",
             style = OrderTheme.typography.displayMedium.copy(
                 fontSize = 28.sp,
                 fontWeight = FontWeight.Bold
@@ -86,7 +81,7 @@ fun ServicesScreen(
             // Quick Panel Section
             item(span = { GridItemSpan(2) }) {
                 Text(
-                    text = stringResource(Res.string.quick_panel_title),
+                    text = "Быстрая Панель Сервисов",
                     style = OrderTheme.typography.displayMedium.copy(
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold
@@ -124,7 +119,7 @@ fun ServicesScreen(
             // Others Section
             item(span = { GridItemSpan(2) }) {
                 Text(
-                    text = stringResource(Res.string.other_services_title),
+                    text = "Остальное",
                     style = OrderTheme.typography.displayMedium.copy(
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold

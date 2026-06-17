@@ -22,10 +22,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import ru.orderdorms.ui.resources.Res
-import ru.orderdorms.ui.resources.news_text_template
-import ru.orderdorms.ui.resources.news_title_template
-import org.jetbrains.compose.resources.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import ru.orderdorms.ui.icons.priorityHighIco
@@ -101,8 +97,8 @@ fun NewsCardPreview() {
                 .padding(24.dp)
         ) {
             NewsCard(
-                title = stringResource(Res.string.news_title_template),
-                subtitle = stringResource(Res.string.news_text_template),
+                title = "Шаблон названия новости",
+                subtitle = "Шаблон текста новости",
                 icon = priorityHighIco
             )
         }

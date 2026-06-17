@@ -20,17 +20,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.unit.dp
-import ru.orderdorms.ui.resources.Res
-import ru.orderdorms.ui.resources.back_button
-import ru.orderdorms.ui.resources.tab_events
-import ru.orderdorms.ui.resources.tab_home
-import ru.orderdorms.ui.resources.tab_notifications
-import ru.orderdorms.ui.resources.tab_services
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.serialization.Serializable
-import org.jetbrains.compose.resources.StringResource
-import org.jetbrains.compose.resources.stringResource
 import org.koin.mp.KoinPlatform
 import ru.orderdorms.core.domain.auth.AuthRepository
 import ru.orderdorms.features.auth.presentation.AuthFlow
@@ -52,11 +44,11 @@ enum class RootScreen {
     HOME,
 }
 
-private enum class MainTab(val titleRes: StringResource) {
-    HOME(Res.string.tab_home),
-    EVENTS(Res.string.tab_events),
-    NOTIFICATIONS(Res.string.tab_notifications),
-    SERVICES(Res.string.tab_services),
+private enum class MainTab(val title: String) {
+    HOME("Общага"),
+    EVENTS("События"),
+    NOTIFICATIONS("Оповещения"),
+    SERVICES("Сервисы"),
 }
 
 class RootController(
@@ -127,11 +119,11 @@ fun RootContent(rootController: RootController) {
                                         }
                                         Icon(
                                             imageVector = ico,
-                                            contentDescription = stringResource(tab.titleRes),
+                                            contentDescription = tab.title,
                                             tint = if (tab == tabState.value) OrderTheme.colors.activeColor else OrderTheme.colors.primaryTextColor
                                         )
                                     },
-                                    label = { Text(stringResource(tab.titleRes), color = OrderTheme.colors.primaryTextColor) }
+                                    label = { Text(tab.title, color = OrderTheme.colors.primaryTextColor) }
                                 )
                             }
                         }
@@ -141,7 +133,7 @@ fun RootContent(rootController: RootController) {
                         when (tabState.value) {
                             MainTab.HOME -> HomeFlow(onLogout = rootController::onLogout, onOpenServices = { tabState.value = MainTab.SERVICES })
                             MainTab.EVENTS -> EventsScreen()
-                            MainTab.NOTIFICATIONS -> PlaceholderScreen(Res.string.tab_notifications)
+                            MainTab.NOTIFICATIONS -> PlaceholderScreen("Оповещения")
                             MainTab.SERVICES -> ServicesFlow(onOpenService = { openedService.value = it })
                         }
                     }
@@ -152,11 +144,11 @@ fun RootContent(rootController: RootController) {
 }
 
 @Composable
-private fun PlaceholderScreen(resource: StringResource) {
+private fun PlaceholderScreen(text: String) {
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
-        Text(text = stringResource(resource), color = OrderTheme.colors.primaryTextColor)
+        Text(text = text, color = OrderTheme.colors.primaryTextColor)
     }
 }
 
@@ -175,7 +167,7 @@ private fun ServiceDetailScreen(
         ) {
             Text(text = service.title, color = OrderTheme.colors.primaryTextColor)
             Button(onClick = onBack) {
-                Text(text = stringResource(Res.string.back_button))
+                Text(text = "Назад")
             }
         }
     }

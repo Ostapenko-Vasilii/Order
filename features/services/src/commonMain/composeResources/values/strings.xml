@@ -1,0 +1,5 @@
+<resources>
+    <string name="all_services_title">Все сервисы</string>
+    <string name="quick_panel_title">Быстрая Панель Сервисов</string>
+    <string name="other_services_title">Остальное</string>
+</resources>

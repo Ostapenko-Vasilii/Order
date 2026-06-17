@@ -17,7 +17,6 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.tooling.preview.Preview
 
-import org.jetbrains.compose.resources.stringResource
 import ru.orderdorms.ui.theme.OrderTheme
 
 @Composable

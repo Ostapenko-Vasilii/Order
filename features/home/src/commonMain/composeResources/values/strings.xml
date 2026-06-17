@@ -1,0 +1,7 @@
+<resources>
+    <string name="home_news_section">Важные Новости</string>
+    <string name="home_actions_section">Быстрые Действия</string>
+    <string name="show_all">Показать Все</string>
+    <string name="news_title_template">Шаблон названия новости</string>
+    <string name="news_text_template">Шаблон текста новости</string>
+</resources>

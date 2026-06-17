@@ -34,7 +34,7 @@ fun HomeEventsRow(
                 location = event.place,
                 imageUrl = event.imageUrl,
                 modifier = Modifier
-                    .width(280.dp)
+                    .width(250.dp)
                     .clip(RoundedCornerShape(Dimensions.largeCornerRadius))
                     .clickable { onEventClick(event) }
             )

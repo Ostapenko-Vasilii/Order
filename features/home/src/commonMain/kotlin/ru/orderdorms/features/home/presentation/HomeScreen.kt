@@ -32,11 +32,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import ru.orderdorms.ui.resources.Res
-import ru.orderdorms.ui.resources.home_actions_section
-import ru.orderdorms.ui.resources.home_news_section
-import ru.orderdorms.ui.resources.show_all
-import org.jetbrains.compose.resources.stringResource
 import ru.orderdorms.features.events.domain.model.Event
 import ru.orderdorms.features.events.presentation.components.HomeEventsRow
 import ru.orderdorms.features.home.presentation.components.QuickActionsRow
@@ -73,7 +68,7 @@ fun HomeScreen(
                 }
 
                 item {
-                    SectionHeader(title = stringResource(Res.string.home_news_section), onShowAllClick = onOpenServices)
+                    SectionHeader(title = "Важные Новости", onShowAllClick = onOpenServices)
                 }
 
                 items(dashboard.importantNews) { news ->
@@ -89,7 +84,7 @@ fun HomeScreen(
                 }
 
                 item {
-                    SectionHeader(title = stringResource(Res.string.home_actions_section), onShowAllClick = onOpenServices)
+                    SectionHeader(title = "Быстрые Действия", onShowAllClick = onOpenServices)
                 }
 
                 item {
@@ -197,7 +192,7 @@ private fun SectionHeader(
             )
         )
         Text(
-            text = stringResource(Res.string.show_all),
+            text = "Показать Все",
             style = OrderTheme.typography.labelLarge.copy(
                 color = Color.Gray,
             ),
