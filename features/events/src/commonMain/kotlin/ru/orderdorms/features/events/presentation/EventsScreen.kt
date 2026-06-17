@@ -30,9 +30,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import order.core.ui.generated.resources.Res
-import order.core.ui.generated.resources.all_events_title
-import order.core.ui.generated.resources.search_events_placeholder
+import ru.orderdorms.ui.resources.Res
+import ru.orderdorms.ui.resources.all_events_title
+import ru.orderdorms.ui.resources.search_events_placeholder
 import org.jetbrains.compose.resources.stringResource
 import com.mikepenz.markdown.m3.Markdown
 import androidx.compose.foundation.text.BasicTextField

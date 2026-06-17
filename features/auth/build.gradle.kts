@@ -16,4 +16,5 @@ kotlin {
 compose.resources {
     publicResClass = true
     generateResClass = auto
+    packageOfResClass = "ru.orderdorms.features.auth.resources"
 }

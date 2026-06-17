@@ -28,10 +28,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import order.core.ui.generated.resources.Res
-import order.core.ui.generated.resources.all_services_title
-import order.core.ui.generated.resources.other_services_title
-import order.core.ui.generated.resources.quick_panel_title
+import ru.orderdorms.ui.resources.Res
+import ru.orderdorms.ui.resources.all_services_title
+import ru.orderdorms.ui.resources.other_services_title
+import ru.orderdorms.ui.resources.quick_panel_title
 import org.jetbrains.compose.resources.stringResource
 import ru.orderdorms.core.domain.model.Service
 import ru.orderdorms.ui.components.Dimensions

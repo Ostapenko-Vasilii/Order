@@ -32,10 +32,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import order.core.ui.generated.resources.Res
-import order.core.ui.generated.resources.home_actions_section
-import order.core.ui.generated.resources.home_news_section
-import order.core.ui.generated.resources.show_all
+import ru.orderdorms.ui.resources.Res
+import ru.orderdorms.ui.resources.home_actions_section
+import ru.orderdorms.ui.resources.home_news_section
+import ru.orderdorms.ui.resources.show_all
 import org.jetbrains.compose.resources.stringResource
 import ru.orderdorms.features.events.domain.model.Event
 import ru.orderdorms.features.events.presentation.components.HomeEventsRow

@@ -2,9 +2,9 @@ package ru.orderdorms.features.auth.presentation
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
-import order.features.auth.generated.resources.Res
-import order.features.auth.generated.resources.login
-import order.features.auth.generated.resources.register
+import ru.orderdorms.features.auth.resources.Res
+import ru.orderdorms.features.auth.resources.login
+import ru.orderdorms.features.auth.resources.register
 import org.jetbrains.compose.resources.stringResource
 import ru.orderdorms.ui.components.OrderButton
 

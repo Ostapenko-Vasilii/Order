@@ -24,9 +24,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
-import order.core.ui.generated.resources.Res
-import order.core.ui.generated.resources.event_date_template
-import order.core.ui.generated.resources.event_title_template
+import ru.orderdorms.ui.resources.Res
+import ru.orderdorms.ui.resources.event_date_template
+import ru.orderdorms.ui.resources.event_title_template
 import org.jetbrains.compose.resources.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import ru.orderdorms.ui.theme.OrderTheme

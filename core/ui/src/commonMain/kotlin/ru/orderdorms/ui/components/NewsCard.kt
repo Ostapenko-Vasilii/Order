@@ -22,9 +22,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import order.core.ui.generated.resources.Res
-import order.core.ui.generated.resources.news_text_template
-import order.core.ui.generated.resources.news_title_template
+import ru.orderdorms.ui.resources.Res
+import ru.orderdorms.ui.resources.news_text_template
+import ru.orderdorms.ui.resources.news_title_template
 import org.jetbrains.compose.resources.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp

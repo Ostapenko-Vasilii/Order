@@ -19,4 +19,5 @@ kotlin {
 
 compose.resources {
     publicResClass = true
+    packageOfResClass = "ru.orderdorms.ui.resources"
 }

@@ -3,12 +3,12 @@ package ru.orderdorms.ui.theme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import order.core.ui.generated.resources.Inter_Bold
-import order.core.ui.generated.resources.Inter_Medium
-import order.core.ui.generated.resources.Inter_Regular
-import order.core.ui.generated.resources.Manrope_Bold
-import order.core.ui.generated.resources.Manrope_SemiBold
-import order.core.ui.generated.resources.Res
+import ru.orderdorms.ui.resources.Inter_Bold
+import ru.orderdorms.ui.resources.Inter_Medium
+import ru.orderdorms.ui.resources.Inter_Regular
+import ru.orderdorms.ui.resources.Manrope_Bold
+import ru.orderdorms.ui.resources.Manrope_SemiBold
+import ru.orderdorms.ui.resources.Res
 import org.jetbrains.compose.resources.Font
 
 
