@@ -1,5 +1,6 @@
 package ru.orderdorms.navigation
 
+import androidx.compose.foundation.background
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Button
 import androidx.compose.material3.NavigationBar
@@ -32,6 +33,11 @@ import androidx.compose.ui.platform.LocalUriHandler
 import ru.orderdorms.core.domain.model.Service
 import ru.orderdorms.features.services.presentation.faq.FaqFlow
 import ru.orderdorms.features.services.presentation.ServicesFlow
+import ru.orderdorms.features.services.presentation.cleaning.CleaningFlow
+import ru.orderdorms.features.services.presentation.requests.RequestsFlow
+import ru.orderdorms.features.services.presentation.complaints.ComplaintsFlow
+import ru.orderdorms.features.services.presentation.booking.BookingFlow
+import ru.orderdorms.features.news.presentation.NewsFlow
 import ru.orderdorms.ui.icons.calendarIco
 import ru.orderdorms.ui.icons.dormIco
 import ru.orderdorms.ui.icons.priorityInfoIco
@@ -87,11 +93,23 @@ fun RootContent(rootController: RootController) {
                 when (service.id) {
                     "1" -> {
                         LaunchedEffect(service.id) {
-                            uriHandler.openUri("https://pay.urfu.ru/direct")
+                            uriHandler.openUri(service.url ?: "https://pay.urfu.ru/direct")
                             openedService.value = null
                         }
                     }
-                    "7" -> {
+                    "2" -> {
+                        BookingFlow(onBack = { openedService.value = null })
+                    }
+                    "3" -> {
+                        CleaningFlow(onBack = { openedService.value = null })
+                    }
+                    "4" -> {
+                        RequestsFlow(onBack = { openedService.value = null })
+                    }
+                    "5" -> {
+                        ComplaintsFlow(onBack = { openedService.value = null })
+                    }
+                    "6" -> {
                         FaqFlow(onBack = { openedService.value = null })
                     }
                     else -> {
@@ -131,9 +149,13 @@ fun RootContent(rootController: RootController) {
                 ) { inner ->
                         Box(modifier = Modifier.padding(inner).fillMaxSize()) {
                         when (tabState.value) {
-                            MainTab.HOME -> HomeFlow(onLogout = rootController::onLogout, onOpenServices = { tabState.value = MainTab.SERVICES })
+                            MainTab.HOME -> HomeFlow(
+                                onLogout = rootController::onLogout,
+                                onOpenServices = { tabState.value = MainTab.SERVICES },
+                                onOpenService = { openedService.value = it }
+                            )
                             MainTab.EVENTS -> EventsScreen()
-                            MainTab.NOTIFICATIONS -> PlaceholderScreen("Оповещения")
+                            MainTab.NOTIFICATIONS -> NewsFlow()
                             MainTab.SERVICES -> ServicesFlow(onOpenService = { openedService.value = it })
                         }
                     }
@@ -158,14 +180,23 @@ private fun ServiceDetailScreen(
     onBack: () -> Unit,
 ) {
     Box(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxSize().background(OrderTheme.colors.onBackground),
         contentAlignment = Alignment.Center
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            Text(text = service.title, color = OrderTheme.colors.primaryTextColor)
+            Text(
+                text = "Экран сервиса: ${service.title}",
+                style = OrderTheme.typography.displayMedium,
+                color = OrderTheme.colors.primaryTextColor
+            )
+            Text(
+                text = "В разработке",
+                style = OrderTheme.typography.bodyLarge,
+                color = OrderTheme.colors.primaryTextColor.copy(alpha = 0.6f)
+            )
             Button(onClick = onBack) {
                 Text(text = "Назад")
             }

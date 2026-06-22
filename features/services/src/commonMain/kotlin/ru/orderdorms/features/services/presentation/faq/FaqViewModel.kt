@@ -16,7 +16,7 @@ import ru.orderdorms.features.services.domain.model.faq.FaqQuestion
 import ru.orderdorms.features.services.domain.usecase.GetFaqCategoriesUseCase
 
 class FaqViewModel(
-    private val getFaqCategoriesUseCase: GetFaqCategoriesUseCase
+    private val getFaqCategoriesUseCase: GetFaqCategoriesUseCase,
 ) {
     private val scope: CoroutineScope = MainScope()
 
@@ -24,8 +24,22 @@ class FaqViewModel(
         private set
 
     init {
+        loadCategories()
+    }
+
+    fun loadCategories() {
+        state = state.copy(isLoading = true, error = null)
         getFaqCategoriesUseCase()
-            .onEach { state = state.copy(categories = it) }
+            .onEach { result ->
+                result.fold(
+                    left = { error ->
+                        state = state.copy(isLoading = false, error = error)
+                    },
+                    right = { categories ->
+                        state = state.copy(isLoading = false, categories = categories)
+                    },
+                )
+            }
             .launchIn(scope)
     }
 

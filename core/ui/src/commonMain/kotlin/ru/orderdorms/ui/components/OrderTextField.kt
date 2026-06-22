@@ -31,6 +31,7 @@ fun OrderTextField(
     visualTransformation: VisualTransformation = VisualTransformation.None,
     isError: Boolean = false,
     errorText: String? = null,
+    singleLine: Boolean = true,
 ) {
     OutlinedTextField(
         value = value,
@@ -64,7 +65,7 @@ fun OrderTextField(
         keyboardOptions = keyboardOptions,
         keyboardActions = keyboardActions,
         visualTransformation = visualTransformation,
-        singleLine = true,
+        singleLine = singleLine,
         isError = isError,
         supportingText = {
             if (!errorText.isNullOrBlank()) {

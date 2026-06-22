@@ -4,6 +4,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
+import ru.orderdorms.core.domain.error.DomainError
+import ru.orderdorms.core.domain.functional.Either
 import ru.orderdorms.features.services.domain.model.faq.FaqCategory
 import ru.orderdorms.features.services.domain.model.faq.FaqQuestion
 import ru.orderdorms.features.services.domain.repository.FaqRepository
@@ -21,34 +23,35 @@ class FaqRepositoryImpl(
     private var lastFetchTime: Instant? = null
     private val cacheDuration = 30.minutes
 
-    override fun getFaqCategories(): Flow<List<FaqCategory>> = flow {
+    override fun getFaqCategories(): Flow<Either<DomainError, List<FaqCategory>>> = flow {
         val now = clock.now()
         val cache = cachedData
         val last = lastFetchTime
         
         if (cache != null && last != null && (now - last) < cacheDuration) {
-            emit(cache)
+            emit(Either.Right(cache))
         } else {
-            val data = if (useMock) {
-                mockDataSource.getCategories()
-            } else {
-                apiDataSource.getCategories()
+            try {
+                val data = if (useMock) {
+                    mockDataSource.getCategories()
+                } else {
+                    apiDataSource.getCategories()
+                }
+                cachedData = data
+                lastFetchTime = now
+                emit(Either.Right(data))
+            } catch (e: Exception) {
+                emit(Either.Left(DomainError(
+                    code = "FAQ_FETCH_ERROR",
+                    message = e.message ?: "Failed to fetch FAQ categories"
+                )))
             }
-            cachedData = data
-            lastFetchTime = now
-            emit(data)
         }
     }
 }
 
 interface FaqApiDataSource {
     suspend fun getCategories(): List<FaqCategory>
-}
-
-class KtorFaqApiDataSource : FaqApiDataSource {
-    override suspend fun getCategories(): List<FaqCategory> {
-        return emptyList()
-    }
 }
 
 class FaqMockDataSource {

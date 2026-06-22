@@ -22,9 +22,7 @@ class ServicesRepositoryImpl(
         Service("3", "График Уборки", "Шаблон", cleaningIco),
         Service("4", "Подать Заявку", "Шаблон", commentIco),
         Service("5", "Подать Жалобу", "Шаблон", repairIco),
-        Service("6", "Услуги от проживающих", "Шаблон", handshakeIco),
-        Service("7", "База Знаний", "Шаблон", commentIco),
-        Service("8", "Барахолка", "Шаблон", paymentsIco),
+        Service("6", "База Знаний", "Шаблон", commentIco),
     )
 
     private val _quickActionIds = MutableStateFlow(loadQuickActionIds())

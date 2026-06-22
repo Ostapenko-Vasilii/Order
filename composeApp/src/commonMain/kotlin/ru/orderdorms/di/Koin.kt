@@ -6,6 +6,7 @@ import ru.orderdorms.core.data.di.networkModule
 import ru.orderdorms.features.auth.di.authModule
 import ru.orderdorms.features.events.di.eventsModule
 import ru.orderdorms.features.home.di.homeModule
+import ru.orderdorms.features.news.di.newsModule
 import ru.orderdorms.features.services.di.servicesModule
 
 fun initKoinIfNeeded() {
@@ -18,6 +19,7 @@ fun initKoinIfNeeded() {
             homeModule,
             servicesModule,
             eventsModule,
+            newsModule,
         )
     }
 }

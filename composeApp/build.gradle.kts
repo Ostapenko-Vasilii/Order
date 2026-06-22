@@ -12,6 +12,7 @@ kotlin {
             implementation(project(":features:home"))
             implementation(project(":features:services"))
             implementation(project(":features:events"))
+            implementation(project(":features:news"))
             implementation(libs.koin.core)
         }
         commonTest.dependencies {
